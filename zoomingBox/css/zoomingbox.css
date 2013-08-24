@@ -1,0 +1,82 @@
+#zoomingBox {
+	position:fixed; /* keeps the zoomingBox window in the current viewport */
+	top:0; 
+	left:0; 
+	width:100%; 
+	height:100%; 
+	text-align:center;
+	display:none;
+	z-index:2;
+}
+#zoomingBox-overlay{
+	position:fixed; /* keeps the zoomingBox window in the current viewport */
+	top:0; 
+	left:0; 
+	width:100%; 
+	height:100%;
+	background:#000; 
+}
+#zoomingBox-content{
+	background:#FFF;
+	box-shadow:0 0 1em #111;
+	-webkit-box-shadow:0 0 25px #111;
+	-moz-box-shadow:0 0 25px #111;
+	margin:3% auto 0;
+	overflow:hidden;
+	position:relative;
+	width:auto;
+	display:inline-block;
+}
+#zoomingBox-img{
+	width:100%;
+	display:inline-block;
+}
+#zoomingBox-thumbs.zThumbsVertical{
+	width:10%;
+	display:block;
+	position:absolute;
+	height:100%;
+	right:0;
+	top:0;
+	
+}
+#zoomingBox-thumbs.zThumbsHorizontal{
+	width:100%;
+	display:block;
+	position:absolute;
+	bottom:0;
+}
+#zoomingBox-thumbs.zThumbsHorizontal a{
+	display:inline-block;
+	max-width:5%;
+}
+#zoomingBox-thumbs a{
+	display:block;
+	padding:5px 10px 0;
+	text-align:center;
+	opacity:0.5;
+}
+#zoomingBox-thumbs a:hover{
+	opacity:1;
+}
+#zoomingBox-thumbs img{
+	cursor:pointer;
+	max-width:100%;
+	border:thin solid #CCC;
+}
+.zoomingBox-xl {
+	position:relative;
+	cursor:crosshair;
+}
+#zoomingBox .close{
+	position:absolute;
+	top:0;
+	left:0;
+	background:#666;
+	color:#FFF;
+	opacity:0.8;
+	z-index:1;
+	font-family:Arial, helvetica, sans-serif;
+	padding:0.2em 0.7em;
+	text-decoration:none;
+}
