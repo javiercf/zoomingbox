@@ -42,6 +42,7 @@
     height: 100%;
     right: 0;
     top: 0;
+    pointer-events:none;
 
 }
 
@@ -59,9 +60,10 @@
 
 #zoomingBox-thumbs a {
     display: block;
-    padding: 5px 10px 0;
+    margin: 5px 10px 0;
     text-align: center;
     opacity: 0.5;
+    pointer-events: auto;
 }
 
 #zoomingBox-thumbs a:hover {
