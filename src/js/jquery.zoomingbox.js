@@ -157,7 +157,7 @@
                 var offset = $('#zoomingBox-content').offset();
                 var mouseX = e.pageX - offset.left;
                 var mouseY = e.pageY - offset.top;
-                var posX = (Math.round((mouseX / fullWidth) * 100) / 50) * (fullWidth - contentWidth);
+                var posX = (Math.round((mouseX / contentWidth) * 100) / 100) * (fullWidth - contentWidth);
                 var posY = (Math.round((mouseY / contentHeight) * 100) / 100) * (fullHeight - contentHeight);
                 if (settings.zoom == 'vertical') {
                     $('.zoomingBox-xl').css('top', '-' + posY + 'px');
