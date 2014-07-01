@@ -152,7 +152,7 @@
             $('.zoomingBox-xl').on('mousemove', function (e) {
                 var fullWidth = $('.zoomingBox-xl').width(); // Width in pixels of full-sized image
                 var fullHeight = $('.zoomingBox-xl').height();
-                var contentWidth = $('#zoomingBox-content').height();  // Width in pixels of thumbnail image
+                var contentWidth = $('#zoomingBox-content').width();  // Width in pixels of thumbnail image
                 var contentHeight = $('#zoomingBox-content').height();
                 var offset = $('#zoomingBox-content').offset();
                 var mouseX = e.pageX - offset.left;
