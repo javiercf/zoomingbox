@@ -1,0 +1,27 @@
+{
+  "name": "zoomingbox",
+  "version": "1.2",
+  "homepage": "https://github.com/javiercf/zoomingbox",
+  "authors": [
+    "javiercf <javiercferrans@gmail.com>"
+  ],
+  "main": "dist/js/jquery.zoomingbox.min.js",
+  "keywords": [
+    "lightbox",
+    "gallery",
+    "zoom",
+    "jquery",
+    "zoomingbox"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^1"
+  }
+}
