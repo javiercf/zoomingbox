@@ -1,6 +1,6 @@
 /*!
  * zoomingBox - jQuery Plugin
- * version: 1.2 (Wed, 18 Mar 2014)
+ * version: 1.2.1 (Sun, 07 Dic 2014)
  * @requires jQuery v1.6 or later
  *
  * Examples at http://jcf-design.com/zoomingBox
@@ -9,124 +9,108 @@
  *
  */
 (function ($) {
-	$.fn.zoomingBox = function (options) {
- 		var settings = $.extend(true, {}, $.fn.zoomingBox.defaults, options);
- 		this.click(function (e) {
-            var thisClass = this;
+    "use strict";
+    $.fn.zoomingBox = function (options) {
+        var settings = $.extend(true, {}, $.fn.zoomingBox.defaults, options);
+        this.click(function (e) {
+            var container, thumbHolder, buttons, image_wrap, zoomingBox, zoomingBox_image, thumbSearch, current, height, thisClass = this, full_image = this.href, image_rel = this.rel;
             //Prevent Hyperlink
             e.preventDefault();
             settings.onStart.call(this);
             //Get linked image
-            
-            var full_image = this.href;
-            var image_rel = this.rel;
-            if (settings.imageResize == 'height') {
-            	var container = '<div id="zoomingBox-content">'
+            if (settings.imageResize === 'height') {
+                container = '<div id="zoomingBox-content">';
+            } else {
+                container = '<div id="zoomingBox-content" style="max-width:' + settings.containerWidth + '; height:' + settings.containerHeight + '">';
             }
-            else {
-            	var container = '<div id="zoomingBox-content" style="max-width:' + settings.containerWidth + '; height:' + settings.containerHeight + '">'
-            }
-            var zoomingBox_image = '<img class="zoomingBox-xl" src="' + full_image + '" />';
+            zoomingBox_image = '<img class="zoomingBox-xl" src="' + full_image + '" />';
             if (settings.thumbnails) {
-            	if (settings.thumbnailPosition == "vertical") {
-            		var thumbHolder = "zThumbsVertical";
-            	}
-            	else {
-            		var thumbHolder = "zThumbsHorizontal";
-            	}
-            	var image_wrap = 'zoomingBox-img';
-            	var zoomingBox =
-            	'<div id="zoomingBox">' +
-            	'<div id="zoomingBox-overlay"></div>' +
-            	container +
-            	'<div id="zoomingBox-img">' +
-            	'</div>' +
-            	'<div id="zoomingBox-thumbs" class="' + thumbHolder + '">' +
-            	'</div>' +
-            	'</div>' +
-            	'</div>';
+                if (settings.thumbnailPosition === "vertical") {
+                    thumbHolder = "zThumbsVertical";
+                } else {
+                    thumbHolder = "zThumbsHorizontal";
+                }
+                image_wrap = 'zoomingBox-img';
+                zoomingBox = '<div id="zoomingBox"><div id="zoomingBox-overlay"></div>' + container + '<div id="zoomingBox-img"></div><div id="zoomingBox-thumbs" class="' + thumbHolder + '"></div></div></div>';
+            } else {
+                image_wrap = 'zoomingBox-content';
+                zoomingBox = '<div id="zoomingBox"><div id="zoomingBox-overlay"></div>' + container + '</div></div>';
             }
-            else {
-            	var image_wrap = 'zoomingBox-content';
-            	var zoomingBox =
-            	'<div id="zoomingBox">' +
-            	'<div id="zoomingBox-overlay"></div>' +
-            	container +
-            	'</div>' +
-            	'</div>';
-            }
+
             //insert zoomingBox HTML into page
+
             $('body').append(zoomingBox);
-            if (settings.imageResize == 'height') {
-            	var height = $(window).height() * 0.9;
-            	var zoomingBox_image = '<img class="zoomingBox-xl" src="' + full_image + '" style="max-height:' + height + 'px" />';
-            }
-            else if (settings.imageResize == 'width') {
-            	var zoomingBox_image = '<img class="zoomingBox-xl" src="' + full_image + '" style="max-width:100%" />';
-            }
-            else {
-            	var zoomingBox_image = '<img class="zoomingBox-xl" src="' + full_image + '"/>';
+
+            if (settings.imageResize === 'height') {
+                height = $(window).height() * 0.9;
+                zoomingBox_image = '<img class="zoomingBox-xl" src="' + full_image + '" style="max-height:' + height + 'px" />';
+            } else if (settings.imageResize === 'width') {
+                zoomingBox_image = '<img class="zoomingBox-xl" src="' + full_image + '" style="max-width:100%" />';
+            } else {
+                zoomingBox_image = '<img class="zoomingBox-xl" src="' + full_image + '"/>';
             }
             //insert image into Zoombox
             $('#' + image_wrap).append(zoomingBox_image);
-            
+
             if (image_rel && settings.nav) {
-            	var thumbSearch = $('a[rel="' + image_rel + '"]');
-            	if (thumbSearch.length > 1) {
-            		var buttons = '<a href="#" class="zoomingBox-next">'+ settings.nextText +'</a><a href="#" class="zoomingBox-prev">'+ settings.prevText +'</a> '
-            		$('#zoomingBox-content').append(buttons);
-            		var current;
-            		for (var i = 0; i < thumbSearch.length; i++) {
-            			if (thisClass == thumbSearch[i]) {
-            				current = i;
-            			}
-            		}
-            		function nextImg() {
-                        if (current + 1 >= thumbSearch.length) {
-                        	current = 0;
+                thumbSearch = $('a[rel="' + image_rel + '"]');
+                if (thumbSearch.length > 1) {
+                    buttons = '<a href="#" class="zoomingBox-next">' + settings.nextText + '</a><a href="#" class="zoomingBox-prev">' + settings.prevText + '</a> ';
+                    $('#zoomingBox-content').append(buttons);
+                    for (var i = 0; i < thumbSearch.length; i++) {
+                        if (thisClass === thumbSearch[i]) {
+                            current = i;
                         }
-                        else {
-                        	current = current + 1;
-                        }
-                        $('.zoomingBox-xl').attr('src', thumbSearch[current].href);
-                        return false
                     }
-
-					function prevImg() {
-                        if (current <= 0) {
-                            current = thumbSearch.length - 1;
-                        }
-                        else {
-                            current = current - 1;
-                        }
-                        $('.zoomingBox-xl').attr('src', thumbSearch[current].href);
-                        return false
-                    }
-
-                    $(document).keydown(function(e){
-                    	if(e.keyCode == 37){  //prev key
-                    		prevImg();
-                  		}
-                  		else if(e.keyCode == 39){  //next key
-                  			nextImg();
-                  		}
-					});
-
-            		$('.zoomingBox-next').on('click', nextImg);
-            		$('.zoomingBox-prev').on('click', prevImg)
-            	}
+                }
             }
+
+            function nextImg() {
+                if (current + 1 >= thumbSearch.length) {
+                    current = 0;
+                }
+                else {
+                    current = current + 1;
+                }
+                $('.zoomingBox-xl').attr('src', thumbSearch[current].href);
+                return false;
+            }
+
+            function prevImg() {
+                if (current <= 0) {
+                    current = thumbSearch.length - 1;
+                }
+                else {
+                    current = current - 1;
+                }
+                $('.zoomingBox-xl').attr('src', thumbSearch[current].href);
+                return false;
+            }
+
+            $(document).keydown(function(e){
+                        if(e.keyCode === 37){  //prev key
+                            prevImg();
+
+                        }
+                        else if(e.keyCode === 39){  //next key
+                            nextImg();
+
+                        }
+                    });
+
+            $('.zoomingBox-next').on('click', nextImg);
+            $('.zoomingBox-prev').on('click', prevImg);
             
             if (settings.thumbnails) {
             	if (image_rel) {
-            		var thumbSearch = $('a[rel="' + image_rel + '"]');
+            		thumbSearch = $('a[rel="' + image_rel + '"]');
             		thumbSearch.each(function () {
-                    	var thumbs =
-                        '<a href="' + this.href + '" class="zoomingBox-thumbs">' +
-                        '<img src="' + this.href + '" alt=""/>' +
-                        '</a>';
-                        $('#zoomingBox-thumbs').append(thumbs);
-                    });
+                       var thumbs =
+                       '<a href="' + this.href + '" class="zoomingBox-thumbs">' +
+                       '<img src="' + this.href + '" alt=""/>' +
+                       '</a>';
+                       $('#zoomingBox-thumbs').append(thumbs);
+                   });
             	}
             	else {
             		var thumbs =
@@ -159,54 +143,54 @@
                 var mouseY = e.pageY - offset.top;
                 var posX = (Math.round((mouseX / contentWidth) * 100) / 100) * (fullWidth - contentWidth);
                 var posY = (Math.round((mouseY / contentHeight) * 100) / 100) * (fullHeight - contentHeight);
-                if (settings.zoom == 'vertical') {
+                if (settings.zoom === 'vertical') {
                     $('.zoomingBox-xl').css('top', '-' + posY + 'px');
                 }
-                else if (settings.zoom == 'horizontal') {
+                else if (settings.zoom === 'horizontal') {
                     $('.zoomingBox-xl').css('left', '-' + posX + 'px');
                 }
                 else {
                     $('.zoomingBox-xl').css({'top': '-' + posY + 'px', 'right': '' + posX + 'px'});
                 }
             });
-            settings.onComplete.call(this);
-        });
- 
- 		$(document).on('click', '#zoomingBox', function () {
-            settings.onCleanup.call(this);
-            $('#zoomingBox').remove();
-            settings.onClose.call(this);
-            return false;
-        });
+settings.onComplete.call(this);
+});
 
-        $(document).keydown(function (e) {
-            if (e.keyCode == 27){
-            	settings.onCleanup.call(this);
-            	$('#zoomingBox').remove();
-            	settings.onClose.call(this);
-            	return false;
-            }
-        });
- 	};
+$(document).on('click', '#zoomingBox', function () {
+    settings.onCleanup.call(this);
+    $('#zoomingBox').remove();
+    settings.onClose.call(this);
+    return false;
+});
 
- 	$.fn.zoomingBox.defaults = {
- 		zoom: 'both',
- 		speed: 800,
- 		thumbnails: true,
- 		closeButton: true,
- 		closeText: 'x',
- 		thumbnailPosition: 'vertical',
- 		onStart: function () {},
- 		onComplete: function () {},
- 		onCleanup: function () {},
- 		onClose: function () {},
- 		overlayColor: '#000000',
- 		overlayOpacity: '0.7',
- 		imageResize: null,
- 		containerWidth: '70%',
- 		containerHeight: '90%',
- 		nextText : 'NEXT &gt;',
- 		prevText : '&lt; PREV',
- 		nav : true
- 	};
+$(document).keydown(function (e) {
+    if (e.keyCode === 27){
+       settings.onCleanup.call(this);
+       $('#zoomingBox').remove();
+       settings.onClose.call(this);
+       return false;
+   }
+});
+};
+
+$.fn.zoomingBox.defaults = {
+ zoom: 'both',
+ speed: 800,
+ thumbnails: true,
+ closeButton: true,
+ closeText: 'x',
+ thumbnailPosition: 'vertical',
+ onStart: function () {},
+ onComplete: function () {},
+ onCleanup: function () {},
+ onClose: function () {},
+ overlayColor: '#000000',
+ overlayOpacity: '0.7',
+ imageResize: null,
+ containerWidth: '70%',
+ containerHeight: '90%',
+ nextText : 'NEXT &gt;',
+ prevText : '&lt; PREV',
+ nav : true
+};
 }(jQuery));

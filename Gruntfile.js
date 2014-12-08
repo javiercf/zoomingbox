@@ -21,14 +21,20 @@ module.exports = function(grunt) {
                 dest: 'dist/css/',
                 ext: '.min.css'
             }
+        },
+        jshint: {
+            all: {
+                src: 'src/js/jquery.zoomingbox.js'
+            }
         }
 
     });
 
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
 
 
-    grunt.registerTask('default', ['uglify', 'cssmin']);
+    grunt.registerTask('default', ['jshint','uglify', 'cssmin']);
 
 };

@@ -1,7 +1,8 @@
 {
   "name": "zoomingbox",
-  "version": "1.2",
-  "homepage": "https://github.com/javiercf/zoomingbox",
+  "version": "1.2.1",
+  "homepage": "https://jcf-design/zoomingbox",
+  "description": "A jQuery lightbox which enables you to use the lightbox modal as a container for a larger zoomed image, also supports jQuery galleries and thumbnail navigation",
   "authors": [
     "javiercf <javiercferrans@gmail.com>"
   ],
