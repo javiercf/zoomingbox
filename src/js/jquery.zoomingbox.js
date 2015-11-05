@@ -20,7 +20,9 @@
             //Get linked image
             if (settings.imageResize === 'height') {
                 container = '<div id="zoomingBox-content">';
-            } else {
+            } else if(settings.imageResize === 'both'){
+                container = '<div id="zoomingBox-content" style="max-width:' + settings.containerWidth + ';">';
+            }else {
                 container = '<div id="zoomingBox-content" style="max-width:' + settings.containerWidth + '; height:' + settings.containerHeight + '">';
             }
             zoomingBox_image = '<img class="zoomingBox-xl" src="' + full_image + '" />';
